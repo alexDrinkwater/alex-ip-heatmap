@@ -1,15 +1,21 @@
 <div class="col-lg-8 mx-auto p-3 py-md-5">
-  <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
-    <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-      <span class="fs-4">Alex's IP Heatmap</span>
-    </a>
+  <header class="pb-3 mb-5 border-bottom">
+    <div class="row justify-content-center text-center">
+      <a href="/">
+          <img src="../assets/logo.png" alt="Alex's IP Heatmap"/>
+      </a>
+    </div>
   </header>
 
   <main>
     <p class="fs-5 col-md-8">Explore the map to see the distribution of IP Addresses all over the world.</p>
 
     <div class="mb-5">
-      Insert map here
+      <div class="col">
+        <div class="map-frame">
+          <div id="map"></div>
+        </div>
+      </div>
     </div>
 
     <hr class="col mb-5">
@@ -35,7 +41,7 @@
       </div>
     </div>
   </main>
-  <footer class="pt-5 my-5 text-muted border-top">
+  <footer class="pt-5 my-5 text-muted border-top text-center">
     Created by Alex Drinkwater &middot; 2021
   </footer>
 </div>
