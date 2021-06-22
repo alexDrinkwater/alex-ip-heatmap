@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --watch=false && jest ./server"
+    "test": "ng test --watch=false && jest ./server",
+    "start": "node server/www.js"
   },
   "private": true,
   "dependencies": {
