@@ -19,8 +19,8 @@ function init() {
 
     const insert = dbService.prepare(sql.insert_ip);
     const insertMany = dbService.transaction((ips) => {
-      for (const ip of ips) {
-        insert.run(ip);
+      for (const [key, value] of Object.entries(ips)) {
+        insert.run(value);
       }
     });
 
@@ -29,14 +29,22 @@ function init() {
     fs.createReadStream('server/db/GeoLite2-City-Blocks-IPv4.zip')
       .pipe(unzipper.Extract({path: 'server/db'}))
       .on('close', () => {
+        console.log("Finished extracting zip")
         fs.createReadStream('server/db/GeoLite2-City-Blocks-IPv4.csv')
           .pipe(csv())
           .on('data', (data) => {
-            results.push(data)
+            if (results[data.geoname_id]) {
+              results[data.geoname_id].weight++;
+            } else {
+              data.weight = 1;
+              results[data.geoname_id] = data
+            }
+
           })
           .on('end', () => {
+            console.log(Object.keys(results).length);
             insertMany(results);
-            console.log('Finished initializing Database')
+            console.log('Inserted!')
           });
       })
   }

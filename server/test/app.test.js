@@ -9,8 +9,9 @@ test("GET ip4 and verify properties", async () => {
     .then((response) => {
       // Check type and length
       expect(Array.isArray(response.body)).toBeTruthy();
-      expect(response.body.length).toEqual(171);
+      expect(response.body.length).toEqual(38);
       expect(response.body[0].latitude).toBeDefined()
       expect(response.body[0].longitude).toBeDefined()
+      expect(response.body[0].weight).toBeDefined()
     });
 });
