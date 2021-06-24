@@ -1,0 +1,12 @@
+package ippackage;
+syntax = "proto3";
+
+message Ips {
+  repeated Ip ip = 1;
+}
+
+message Ip {
+    required float latitude = 1;
+    required float longitude = 2;
+    required int32 weight = 3;
+}

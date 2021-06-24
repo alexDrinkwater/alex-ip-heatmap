@@ -2,19 +2,13 @@ const express = require('express')
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
-
-
-const db = require ('./db/db-service');
 const apiRoutes = require('./routes/api');
-
-db.init();
 
 const app = express()
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
-console.log(path.resolve(__dirname, '../app/ip-heatmap/dist/ip-heatmap'));
 app.use(express.static(path.resolve(__dirname, '../dist/alex-ip-heatmap')));
 app.use('/api', apiRoutes);
 

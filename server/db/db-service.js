@@ -2,7 +2,9 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const unzipper = require('unzipper');
 const Database = require('better-sqlite3');
+const Q = require('q');
 const dbService = new Database('server/ip.db');
+console.log("Sqlite Database started")
 
 const sql = require('./db-sql');
 
@@ -12,6 +14,7 @@ let service = {
 }
 
 function init() {
+  const deferred = Q.defer();
   if (!dbService.prepare(sql.select_table).get()) {
     console.log('WARNING: database appears empty, initializing it.');
     dbService.exec(sql.create_ip_table);
@@ -42,12 +45,15 @@ function init() {
 
           })
           .on('end', () => {
-            console.log(Object.keys(results).length);
             insertMany(results);
-            console.log('Inserted!')
+            console.log('Database initialized!')
+            deferred.resolve();
           });
       })
+  } else {
+    deferred.resolve();
   }
+  return deferred.promise;
 }
 
 function getIpsWithLatLong(minLat, minLong, maxLat, maxLong) {

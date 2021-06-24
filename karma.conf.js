@@ -39,6 +39,10 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    files: [
+      "node_modules/leaflet/dist/leaflet.js",
+      "external_modules/leaflet-heat.js"
+    ]
   });
 };
