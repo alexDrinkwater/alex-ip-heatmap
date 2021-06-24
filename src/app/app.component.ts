@@ -52,8 +52,11 @@ export class AppComponent implements AfterViewInit {
   private initMap(): void {
     this.map = L.map('map', {
       center: center,
-      zoom: 10
+      zoom: 6,
+      maxBoundsViscosity: 1.0,
     });
+
+    this.map.setMaxBounds([[-90,-180], [90,180]]);
 
     this.setLocation();
 
