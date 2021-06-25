@@ -30,6 +30,7 @@ export class AppComponent implements AfterViewInit {
   private map: any;
   private heatmap: any;
   private readonly protoIpType: ProtoBuf.Type;
+  private globalResultsReady: boolean = false;
 
   constructor(private http: HttpClient) {
     // Init protobuf types
@@ -68,12 +69,28 @@ export class AppComponent implements AfterViewInit {
     tiles.addTo(this.map);
     this.heatmap = L.heatLayer([], {radius: 15, minOpacity: 0.1, gradient: gradient}).addTo(this.map);
 
+    this.map.on({
+      moveend: () => {
+        if (this.globalResultsReady) return;
+        let bounds = this.map.getBounds();
+        const options = {
+            minLat: bounds.getSouth(),
+            maxLat: bounds.getNorth(),
+            minLong: bounds.getWest(),
+            maxLong: bounds.getEast()
+          };
+        this.updateHeatmap(options)
+      }
+    })
+
     this.updateHeatmap()
   }
 
   private updateHeatmap(bounds: any = defaultBounds){
     this.http.get('/api/ip4', { responseType: "arraybuffer", params: bounds})
       .subscribe((res: ArrayBuffer) => {
+        if (this.globalResultsReady) return;
+        if (bounds === defaultBounds) this.globalResultsReady = true;
         const ipJson = this.protoIpType.toObject(this.protoIpType.decode(new Uint8Array(res)))
         const ips = ipJson.ip.map((obj: any) => [obj.latitude, obj.longitude, obj.weight])
         this.heatmap.setLatLngs(ips)
