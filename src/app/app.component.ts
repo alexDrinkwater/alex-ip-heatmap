@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import * as ProtoBuf from 'protobufjs'
 declare var L: any;
 
-const center = [40, -111];
+const center = [37.77, -122.41];
 
 const gradient = {
   '0': 'Black',
@@ -58,8 +58,7 @@ export class AppComponent implements AfterViewInit {
     });
 
     this.map.setMaxBounds([[-90,-180], [90,180]]);
-
-    this.setLocation();
+    this.map.setView(center, 10);
 
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
